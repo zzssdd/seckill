@@ -33,6 +33,17 @@ services:
     ports:
       - 80:80
     privileged: true
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: seckill-rabbitmq
+    ports:
+      - "9930:5672"
+      - "15672:15672"
+    environment:
+      - TZ=Asia/Shanghai
+      - RABBITMQ_DEFAULT_USER=yogen
+      - RABBITMQ_DEFAULT_PASS=yogen123
+      - RABBITMQ_DEFAULT_VHOST=seckill
   etcd:
     image: quay.io/coreos/etcd:v3.5.5
     container_name: seckill-etcd
@@ -41,7 +52,7 @@ services:
       - ETCD_ADVERTISE_CLIENT_URLS=http://0.0.0.0:2379
       - ETCDCTL_API=3
     ports:
-      - "9930:2379"
+      - "9940:2379"
   zookeeper:
     image: zookeeper:latest
     restart: always
@@ -51,4 +62,4 @@ services:
       - ./pkg/zookeeper/data:/data
       - ./pkg/zookeeper/logs:/datalog
     ports:
-      - "9940:2181"
+      - "9950:2181"

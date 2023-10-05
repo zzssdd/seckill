@@ -1,0 +1,21 @@
+{
+  "ApiServiceName": "api",
+  "UserServiceName": "user",
+  "ProductServiceName": "product",
+  "SeckillServiceName": "seckill",
+  "OrderServiceName": "order",
+  "ApiTcpAddr": "127.0.0.1:8888",
+  "UserTcpAddr": "127.0.0.1:8889",
+  "ProductTcpAddr": "127.0.0.1:8890",
+  "SeckillTcpAddr": "127.0.0.1:8891",
+  "OrderTcpAddr": "127.0.0.1:8892",
+  "MysqlUserDSN": "root:123456@tcp(127.0.0.1:9910)/user?charset=utf8mb4&parseTime=True&loc=Local",
+  "MysqlProductDSN": "root:123456@tcp(127.0.0.1:9910)/product?charset=utf8mb4&parseTime=True&loc=Local",
+  "MysqlOrderStatusDSN": "root:123456@tcp(127.0.0.1:9910)/orderStatus?charset=utf8mb4&parseTime=True&loc=Local",
+  "RedisDSN": "127.0.0.1:9920",
+  "EtcdDSN": "127.0.0.1:9930",
+  "RabbitmqDSN": "amqp://yogen:yogen123@127.0.0.1:5672/seckill",
+  "IpLimitCount": 100,
+  "Salt": "artwfsZdrwe3",
+  "TokenExpireTime": 1
+}
