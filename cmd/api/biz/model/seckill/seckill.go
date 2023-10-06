@@ -467,10 +467,11 @@ func (p *SeckillResponse) String() string {
 }
 
 type SubmitRequest struct {
-	ID  int64 `thrift:"id,1" form:"id" json:"id" query:"id"`
-	UID int64 `thrift:"uid,2" form:"uid" json:"uid" query:"uid"`
-	Pid int32 `thrift:"pid,3" form:"pid" json:"pid" query:"pid"`
-	Num int32 `thrift:"num,4" form:"num" json:"num" query:"num"`
+	ID      int64 `thrift:"id,1" form:"id" json:"id" query:"id"`
+	UID     int64 `thrift:"uid,2" form:"uid" json:"uid" query:"uid"`
+	Pid     int32 `thrift:"pid,3" form:"pid" json:"pid" query:"pid"`
+	Num     int32 `thrift:"num,4" form:"num" json:"num" query:"num"`
+	ReqTime int64 `thrift:"req_time,5" form:"req_time" json:"req_time" query:"req_time"`
 }
 
 func NewSubmitRequest() *SubmitRequest {
@@ -493,11 +494,16 @@ func (p *SubmitRequest) GetNum() (v int32) {
 	return p.Num
 }
 
+func (p *SubmitRequest) GetReqTime() (v int64) {
+	return p.ReqTime
+}
+
 var fieldIDToName_SubmitRequest = map[int16]string{
 	1: "id",
 	2: "uid",
 	3: "pid",
 	4: "num",
+	5: "req_time",
 }
 
 func (p *SubmitRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -552,6 +558,16 @@ func (p *SubmitRequest) Read(iprot thrift.TProtocol) (err error) {
 		case 4:
 			if fieldTypeId == thrift.I32 {
 				if err = p.ReadField4(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 5:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField5(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else {
@@ -625,6 +641,15 @@ func (p *SubmitRequest) ReadField4(iprot thrift.TProtocol) error {
 	return nil
 }
 
+func (p *SubmitRequest) ReadField5(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.ReqTime = v
+	}
+	return nil
+}
+
 func (p *SubmitRequest) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
 	if err = oprot.WriteStructBegin("SubmitRequest"); err != nil {
@@ -645,6 +670,10 @@ func (p *SubmitRequest) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField4(oprot); err != nil {
 			fieldId = 4
+			goto WriteFieldError
+		}
+		if err = p.writeField5(oprot); err != nil {
+			fieldId = 5
 			goto WriteFieldError
 		}
 
@@ -732,6 +761,23 @@ WriteFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 4 begin error: ", p), err)
 WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 4 end error: ", p), err)
+}
+
+func (p *SubmitRequest) writeField5(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("req_time", thrift.I64, 5); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.ReqTime); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 5 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 5 end error: ", p), err)
 }
 
 func (p *SubmitRequest) String() string {

@@ -10,9 +10,10 @@ import (
 )
 
 type OrderInfo struct {
-	Id  int64 `thrift:"id,1" frugal:"1,default,i64" json:"id"`
-	Uid int64 `thrift:"uid,2" frugal:"2,default,i64" json:"uid"`
-	Pid int32 `thrift:"pid,3" frugal:"3,default,i32" json:"pid"`
+	Id        int64 `thrift:"id,1" frugal:"1,default,i64" json:"id"`
+	Uid       int64 `thrift:"uid,2" frugal:"2,default,i64" json:"uid"`
+	Pid       int32 `thrift:"pid,3" frugal:"3,default,i32" json:"pid"`
+	TimeStamp int64 `thrift:"timeStamp,4" frugal:"4,default,i64" json:"timeStamp"`
 }
 
 func NewOrderInfo() *OrderInfo {
@@ -34,6 +35,10 @@ func (p *OrderInfo) GetUid() (v int64) {
 func (p *OrderInfo) GetPid() (v int32) {
 	return p.Pid
 }
+
+func (p *OrderInfo) GetTimeStamp() (v int64) {
+	return p.TimeStamp
+}
 func (p *OrderInfo) SetId(val int64) {
 	p.Id = val
 }
@@ -43,11 +48,15 @@ func (p *OrderInfo) SetUid(val int64) {
 func (p *OrderInfo) SetPid(val int32) {
 	p.Pid = val
 }
+func (p *OrderInfo) SetTimeStamp(val int64) {
+	p.TimeStamp = val
+}
 
 var fieldIDToName_OrderInfo = map[int16]string{
 	1: "id",
 	2: "uid",
 	3: "pid",
+	4: "timeStamp",
 }
 
 func (p *OrderInfo) Read(iprot thrift.TProtocol) (err error) {
@@ -92,6 +101,16 @@ func (p *OrderInfo) Read(iprot thrift.TProtocol) (err error) {
 		case 3:
 			if fieldTypeId == thrift.I32 {
 				if err = p.ReadField3(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 4:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField4(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else {
@@ -156,6 +175,15 @@ func (p *OrderInfo) ReadField3(iprot thrift.TProtocol) error {
 	return nil
 }
 
+func (p *OrderInfo) ReadField4(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.TimeStamp = v
+	}
+	return nil
+}
+
 func (p *OrderInfo) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
 	if err = oprot.WriteStructBegin("OrderInfo"); err != nil {
@@ -172,6 +200,10 @@ func (p *OrderInfo) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField3(oprot); err != nil {
 			fieldId = 3
+			goto WriteFieldError
+		}
+		if err = p.writeField4(oprot); err != nil {
+			fieldId = 4
 			goto WriteFieldError
 		}
 
@@ -244,6 +276,23 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
 }
 
+func (p *OrderInfo) writeField4(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("timeStamp", thrift.I64, 4); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.TimeStamp); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 4 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 4 end error: ", p), err)
+}
+
 func (p *OrderInfo) String() string {
 	if p == nil {
 		return "<nil>"
@@ -266,6 +315,9 @@ func (p *OrderInfo) DeepEqual(ano *OrderInfo) bool {
 	if !p.Field3DeepEqual(ano.Pid) {
 		return false
 	}
+	if !p.Field4DeepEqual(ano.TimeStamp) {
+		return false
+	}
 	return true
 }
 
@@ -286,6 +338,13 @@ func (p *OrderInfo) Field2DeepEqual(src int64) bool {
 func (p *OrderInfo) Field3DeepEqual(src int32) bool {
 
 	if p.Pid != src {
+		return false
+	}
+	return true
+}
+func (p *OrderInfo) Field4DeepEqual(src int64) bool {
+
+	if p.TimeStamp != src {
 		return false
 	}
 	return true

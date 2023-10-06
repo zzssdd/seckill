@@ -3,15 +3,40 @@
 package main
 
 import (
-	"github.com/cloudwego/hertz/pkg/app/server"
-	"seckill/cmd/api/biz/router/api"
+	"github.com/cloudwego/kitex/pkg/rpcinfo"
+	"github.com/cloudwego/kitex/server"
+	etcd "github.com/kitex-contrib/registry-etcd"
+	"log"
+	"net"
 	"seckill/conf"
+	"seckill/dao/cache"
+	"seckill/dao/db"
+	"seckill/kitex_gen/product/product"
+	. "seckill/pkg/log"
 )
 
 func main() {
-	conf.LoadConf()
-	h := server.Default()
+	r, err := etcd.NewEtcdRegistry([]string{conf.EtcdDSN})
+	if err != nil {
+		Log.Fatalf("registry into etcd err:", err)
+		return
+	}
+	addr, err := net.ResolveIPAddr("tcp", conf.ProductTcpAddr)
+	if err != nil {
+		Log.Fatalf("get product tcp addr err:", err)
+	}
+	productServer := &ProductImpl{
+		dao:   db.NewDao(),
+		cache: cache.NewCache(),
+	}
+	svr := product.NewServer(productServer,
+		server.WithServiceAddr(addr),
+		server.WithRegistry(r),
+		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: conf.ProductServiceName}),
+	)
+	err = svr.Run()
 
-	api.Register(h)
-	h.Spin()
+	if err != nil {
+		log.Println(err.Error())
+	}
 }

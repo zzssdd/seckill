@@ -20,8 +20,8 @@ struct BuyRequest{
 }
 
 struct ListRequest{
-    1:i16 offset;
-    2:i16 limit;
+    1:i32 offset;
+    2:i32 limit;
 }
 
 struct ListResponse{
@@ -30,9 +30,20 @@ struct ListResponse{
     3:string msg;
 }
 
+struct IdRequest{
+    1:i32 id
+}
+
+struct ProductResponse{
+        1:ProductInfo product
+        2:i16 code;
+        3:string msg;
+}
+
 service Product{
     BaseResponse AddProduct(ProductInfo req)
     ListResponse ListProduct(ListRequest req)
+    ProductResponse ProductInfo(IdRequest req)
     BaseResponse Try(BuyRequest req)
     BaseResponse Commit(BuyRequest req)
     BaseResponse Cancel(BuyRequest req)

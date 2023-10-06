@@ -40,7 +40,12 @@ func (u *User) UserAdd(email string, password string) (int64, error) {
 	return ret.RowsAffected()
 }
 
-func (u *User) UserLogin(email string, password string) bool {
-	err := u.db.QueryRow("select * from userInfo_"+strconv.Itoa(selectTableByString(email))+"where email=? and password=?", email, password).Err()
-	return err == nil
+func (u *User) UserLogin(email string, password string) (int64, bool) {
+	row := u.db.QueryRow("select id from userInfo_"+strconv.Itoa(selectTableByString(email))+"where email=? and password=?", email, password)
+	if row.Err() != nil {
+		return 0, false
+	}
+	var id int64
+	row.Scan(&id)
+	return id, true
 }

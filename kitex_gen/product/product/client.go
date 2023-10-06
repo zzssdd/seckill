@@ -13,6 +13,7 @@ import (
 type Client interface {
 	AddProduct(ctx context.Context, req *product.ProductInfo, callOptions ...callopt.Option) (r *product.BaseResponse, err error)
 	ListProduct(ctx context.Context, req *product.ListRequest, callOptions ...callopt.Option) (r *product.ListResponse, err error)
+	ProductInfo(ctx context.Context, req *product.IdRequest, callOptions ...callopt.Option) (r *product.ProductResponse, err error)
 	Try(ctx context.Context, req *product.BuyRequest, callOptions ...callopt.Option) (r *product.BaseResponse, err error)
 	Commit(ctx context.Context, req *product.BuyRequest, callOptions ...callopt.Option) (r *product.BaseResponse, err error)
 	Cancel(ctx context.Context, req *product.BuyRequest, callOptions ...callopt.Option) (r *product.BaseResponse, err error)
@@ -55,6 +56,11 @@ func (p *kProductClient) AddProduct(ctx context.Context, req *product.ProductInf
 func (p *kProductClient) ListProduct(ctx context.Context, req *product.ListRequest, callOptions ...callopt.Option) (r *product.ListResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.ListProduct(ctx, req)
+}
+
+func (p *kProductClient) ProductInfo(ctx context.Context, req *product.IdRequest, callOptions ...callopt.Option) (r *product.ProductResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ProductInfo(ctx, req)
 }
 
 func (p *kProductClient) Try(ctx context.Context, req *product.BuyRequest, callOptions ...callopt.Option) (r *product.BaseResponse, err error) {

@@ -5,10 +5,15 @@ package main
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"seckill/cmd/api/biz/router"
+	"seckill/conf"
+	"seckill/pkg/log"
 )
 
 func main() {
+	mylog.InitLog()
+	conf.LoadConf()
 	h := server.Default()
+
 	router.GeneratedRegister(h)
 	h.Spin()
 }

@@ -8,6 +8,9 @@ import (
 var rds *redis.Client
 
 type Cache struct {
+	User   *User
+	Prduct *Product
+	Orer   *Order
 }
 
 func NewCache() Cache {
@@ -18,5 +21,9 @@ func NewCache() Cache {
 			DB:       0,
 		})
 	}
-	return Cache{}
+	return Cache{
+		User:   &User{},
+		Prduct: &Product{},
+		Orer:   &Order{},
+	}
 }

@@ -456,7 +456,7 @@ func (p *BaseResponse) Field2DeepEqual(src string) bool {
 }
 
 type LoginResponse struct {
-	Code  int8   `thrift:"code,1" frugal:"1,default,i8" json:"code"`
+	Code  int16  `thrift:"code,1" frugal:"1,default,i16" json:"code"`
 	Msg   string `thrift:"msg,2" frugal:"2,default,string" json:"msg"`
 	Token string `thrift:"token,3" frugal:"3,default,string" json:"token"`
 }
@@ -469,7 +469,7 @@ func (p *LoginResponse) InitDefault() {
 	*p = LoginResponse{}
 }
 
-func (p *LoginResponse) GetCode() (v int8) {
+func (p *LoginResponse) GetCode() (v int16) {
 	return p.Code
 }
 
@@ -480,7 +480,7 @@ func (p *LoginResponse) GetMsg() (v string) {
 func (p *LoginResponse) GetToken() (v string) {
 	return p.Token
 }
-func (p *LoginResponse) SetCode(val int8) {
+func (p *LoginResponse) SetCode(val int16) {
 	p.Code = val
 }
 func (p *LoginResponse) SetMsg(val string) {
@@ -516,7 +516,7 @@ func (p *LoginResponse) Read(iprot thrift.TProtocol) (err error) {
 
 		switch fieldId {
 		case 1:
-			if fieldTypeId == thrift.BYTE {
+			if fieldTypeId == thrift.I16 {
 				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -576,7 +576,7 @@ ReadStructEndError:
 }
 
 func (p *LoginResponse) ReadField1(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadByte(); err != nil {
+	if v, err := iprot.ReadI16(); err != nil {
 		return err
 	} else {
 		p.Code = v
@@ -640,10 +640,10 @@ WriteStructEndError:
 }
 
 func (p *LoginResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("code", thrift.BYTE, 1); err != nil {
+	if err = oprot.WriteFieldBegin("code", thrift.I16, 1); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteByte(p.Code); err != nil {
+	if err := oprot.WriteI16(p.Code); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -715,7 +715,7 @@ func (p *LoginResponse) DeepEqual(ano *LoginResponse) bool {
 	return true
 }
 
-func (p *LoginResponse) Field1DeepEqual(src int8) bool {
+func (p *LoginResponse) Field1DeepEqual(src int16) bool {
 
 	if p.Code != src {
 		return false

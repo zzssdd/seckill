@@ -94,7 +94,7 @@ CREATE DATABASE  product;
 USE product;
 DROP TABLE IF EXISTS `productInfo`;
 CREATE TABLE `productInfo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '商品id',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '商品id',
   `name` varchar(20) COLLATE utf8mb4_bin NOT NULL COMMENT '商品名称',
   `price` float(8,2) NOT NULL COMMENT '商品价格',
   `pic` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品图片',

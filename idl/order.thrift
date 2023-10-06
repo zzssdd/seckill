@@ -4,6 +4,7 @@ struct OrderInfo{
     1:i64 id;
     2:i64 uid;
     3:i32 pid;
+    4:i64 timeStamp
 }
 
 struct BaseResponse{

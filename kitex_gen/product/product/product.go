@@ -21,6 +21,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	methods := map[string]kitex.MethodInfo{
 		"AddProduct":  kitex.NewMethodInfo(addProductHandler, newProductAddProductArgs, newProductAddProductResult, false),
 		"ListProduct": kitex.NewMethodInfo(listProductHandler, newProductListProductArgs, newProductListProductResult, false),
+		"ProductInfo": kitex.NewMethodInfo(productInfoHandler, newProductProductInfoArgs, newProductProductInfoResult, false),
 		"Try":         kitex.NewMethodInfo(tryHandler, newProductTryArgs, newProductTryResult, false),
 		"Commit":      kitex.NewMethodInfo(commitHandler, newProductCommitArgs, newProductCommitResult, false),
 		"Cancel":      kitex.NewMethodInfo(cancelHandler, newProductCancelArgs, newProductCancelResult, false),
@@ -74,6 +75,24 @@ func newProductListProductArgs() interface{} {
 
 func newProductListProductResult() interface{} {
 	return product.NewProductListProductResult()
+}
+
+func productInfoHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*product.ProductProductInfoArgs)
+	realResult := result.(*product.ProductProductInfoResult)
+	success, err := handler.(product.Product).ProductInfo(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newProductProductInfoArgs() interface{} {
+	return product.NewProductProductInfoArgs()
+}
+
+func newProductProductInfoResult() interface{} {
+	return product.NewProductProductInfoResult()
 }
 
 func tryHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
@@ -155,6 +174,16 @@ func (p *kClient) ListProduct(ctx context.Context, req *product.ListRequest) (r 
 	_args.Req = req
 	var _result product.ProductListProductResult
 	if err = p.c.Call(ctx, "ListProduct", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ProductInfo(ctx context.Context, req *product.IdRequest) (r *product.ProductResponse, err error) {
+	var _args product.ProductProductInfoArgs
+	_args.Req = req
+	var _result product.ProductProductInfoResult
+	if err = p.c.Call(ctx, "ProductInfo", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

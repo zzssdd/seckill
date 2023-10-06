@@ -17,6 +17,7 @@ struct SubmitRequest{
     2:i64 uid;
     3:i32 pid;
     4:i32 num;
+    5:i64 req_time;
 }
 
 struct BaseResponse{

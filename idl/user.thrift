@@ -11,7 +11,7 @@ struct BaseResponse{
 }
 
 struct LoginResponse{
-    1:i8 code;
+    1:i16 code;
     2:string msg;
     3:string token;
 }
