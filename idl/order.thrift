@@ -11,7 +11,6 @@ struct BaseResponse{
     2:string msg;
 }
 
-
 service Order{
    BaseResponse OrderAdd(1:OrderInfo req)
    BaseResponse OrderStatusAdd(1:OrderInfo req)

@@ -11,6 +11,8 @@ type UserImpl struct{}
 // Registry implements the UserImpl interface.
 func (s *UserImpl) Registry(ctx context.Context, req *user.BaseRequest) (resp *user.BaseResponse, err error) {
 	// TODO: Your code here...
+	resp = new(user.BaseResponse)
+
 	return
 }
 

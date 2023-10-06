@@ -11,6 +11,11 @@ func rootMw() []app.HandlerFunc {
 	return nil
 }
 
+func _productlistMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
 func _loginMw() []app.HandlerFunc {
 	// your code...
 	return nil

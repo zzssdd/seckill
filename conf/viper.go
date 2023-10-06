@@ -34,6 +34,8 @@ func getAllField() {
 	IpLimitCount = conf.GetInt("IpLimitCount")
 	Salt = conf.GetString("Salt")
 	TokenExpireTime = conf.GetInt("TokenExpireTime")
+	StartTimeStamp = conf.GetInt64("StartTimeStamp")
+	HostID = conf.GetInt64("HostID")
 }
 
 func LoadConf() {

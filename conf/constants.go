@@ -20,4 +20,6 @@ var (
 	IpLimitCount        int
 	Salt                string
 	TokenExpireTime     int
+	StartTimeStamp      int64
+	HostID              int64
 )

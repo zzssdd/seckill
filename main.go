@@ -4,14 +4,11 @@ package main
 
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
-	"seckill/cmd/api/biz/router/api"
-	"seckill/conf"
+	"seckill/cmd/api/biz/router"
 )
 
 func main() {
-	conf.LoadConf()
 	h := server.Default()
-
-	api.Register(h)
+	router.GeneratedRegister(h)
 	h.Spin()
 }

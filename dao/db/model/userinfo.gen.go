@@ -4,23 +4,13 @@
 
 package model
 
-import (
-	"time"
-
-	"gorm.io/plugin/soft_delete"
-)
-
 const TableNameUserInfo1 = "userInfo_1"
 
 // UserInfo1 mapped from table <userInfo_1>
 type UserInfo1 struct {
 	ID        int32                 `gorm:"column:id;type:int(10) unsigned;primaryKey;comment:ä¸»é”®" json:"id"`      // ä¸»é”®
-	Name      string                `gorm:"column:name;type:varchar(10);not null;comment:å§“å" json:"name"`         // å§“å
 	Email     string                `gorm:"column:email;type:varchar(20);not null;comment:é‚®ç®±" json:"email"`       // é‚®ç®±
 	Password  string                `gorm:"column:password;type:varchar(30);not null;comment:å¯†ç " json:"password"` // å¯†ç 
-	CreatedAt *time.Time            `gorm:"column:created_at;type:datetime(3)" json:"created_at"`
-	UpdatedAt *time.Time            `gorm:"column:updated_at;type:datetime(3)" json:"updated_at"`
-	DeletedAt *soft_delete.DeletedAt `gorm:"column:deleted_at;type:datetime(3)" json:"deleted_at"`
 }
 
 // TableName UserInfo1's table name

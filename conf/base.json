@@ -17,5 +17,7 @@
   "RabbitmqDSN": "amqp://yogen:yogen123@127.0.0.1:5672/seckill",
   "IpLimitCount": 100,
   "Salt": "artwfsZdrwe3",
-  "TokenExpireTime": 1
+  "TokenExpireTime": 1,
+  "StartTimeStamp": 1696555212004,
+  "HostID":1
 }

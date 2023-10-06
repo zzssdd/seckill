@@ -14,6 +14,12 @@ func (s *ProductImpl) AddProduct(ctx context.Context, req *product.ProductInfo) 
 	return
 }
 
+// ListProduct implements the ProductImpl interface.
+func (s *ProductImpl) ListProduct(ctx context.Context, req *product.ListRequest) (resp *product.ListResponse, err error) {
+	// TODO: Your code here...
+	return
+}
+
 // Try implements the ProductImpl interface.
 func (s *ProductImpl) Try(ctx context.Context, req *product.BuyRequest) (resp *product.BaseResponse, err error) {
 	// TODO: Your code here...

@@ -4,12 +4,6 @@
 
 package model
 
-import (
-	"time"
-
-	"gorm.io/plugin/soft_delete"
-)
-
 const TableNameProductInfo = "productInfo"
 
 // ProductInfo mapped from table <productInfo>
@@ -21,9 +15,6 @@ type ProductInfo struct {
 	Des       string               `gorm:"column:des;type:text;comment:å•†å“æè¿°" json:"des"`                            // å•†å“æè¿°
 	Num       int32                `gorm:"column:num;type:int(11);comment:å•†å“æ•°é‡" json:"num"`                         // å•†å“æ•°é‡
 	FreezeNum int32                `gorm:"column:freezeNum;type:int(11);comment:å†»ç»“å•†å“æ•°é‡" json:"freezeNum"`       // å†»ç»“å•†å“æ•°é‡
-	CreatedAt *time.Time            `gorm:"column:created_at;type:datetime(3)" json:"created_at"`
-	UpdatedAt *time.Time            `gorm:"column:updated_at;type:datetime(3)" json:"updated_at"`
-	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:datetime(3)" json:"deleted_at"`
 }
 
 // TableName ProductInfo's table name

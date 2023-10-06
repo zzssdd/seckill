@@ -12,6 +12,7 @@ import (
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
 	AddProduct(ctx context.Context, req *product.ProductInfo, callOptions ...callopt.Option) (r *product.BaseResponse, err error)
+	ListProduct(ctx context.Context, req *product.ListRequest, callOptions ...callopt.Option) (r *product.ListResponse, err error)
 	Try(ctx context.Context, req *product.BuyRequest, callOptions ...callopt.Option) (r *product.BaseResponse, err error)
 	Commit(ctx context.Context, req *product.BuyRequest, callOptions ...callopt.Option) (r *product.BaseResponse, err error)
 	Cancel(ctx context.Context, req *product.BuyRequest, callOptions ...callopt.Option) (r *product.BaseResponse, err error)
@@ -49,6 +50,11 @@ type kProductClient struct {
 func (p *kProductClient) AddProduct(ctx context.Context, req *product.ProductInfo, callOptions ...callopt.Option) (r *product.BaseResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.AddProduct(ctx, req)
+}
+
+func (p *kProductClient) ListProduct(ctx context.Context, req *product.ListRequest, callOptions ...callopt.Option) (r *product.ListResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ListProduct(ctx, req)
 }
 
 func (p *kProductClient) Try(ctx context.Context, req *product.BuyRequest, callOptions ...callopt.Option) (r *product.BaseResponse, err error) {

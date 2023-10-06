@@ -19,10 +19,11 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "Product"
 	handlerType := (*product.Product)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"AddProduct": kitex.NewMethodInfo(addProductHandler, newProductAddProductArgs, newProductAddProductResult, false),
-		"Try":        kitex.NewMethodInfo(tryHandler, newProductTryArgs, newProductTryResult, false),
-		"Commit":     kitex.NewMethodInfo(commitHandler, newProductCommitArgs, newProductCommitResult, false),
-		"Cancel":     kitex.NewMethodInfo(cancelHandler, newProductCancelArgs, newProductCancelResult, false),
+		"AddProduct":  kitex.NewMethodInfo(addProductHandler, newProductAddProductArgs, newProductAddProductResult, false),
+		"ListProduct": kitex.NewMethodInfo(listProductHandler, newProductListProductArgs, newProductListProductResult, false),
+		"Try":         kitex.NewMethodInfo(tryHandler, newProductTryArgs, newProductTryResult, false),
+		"Commit":      kitex.NewMethodInfo(commitHandler, newProductCommitArgs, newProductCommitResult, false),
+		"Cancel":      kitex.NewMethodInfo(cancelHandler, newProductCancelArgs, newProductCancelResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName":     "product",
@@ -55,6 +56,24 @@ func newProductAddProductArgs() interface{} {
 
 func newProductAddProductResult() interface{} {
 	return product.NewProductAddProductResult()
+}
+
+func listProductHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*product.ProductListProductArgs)
+	realResult := result.(*product.ProductListProductResult)
+	success, err := handler.(product.Product).ListProduct(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newProductListProductArgs() interface{} {
+	return product.NewProductListProductArgs()
+}
+
+func newProductListProductResult() interface{} {
+	return product.NewProductListProductResult()
 }
 
 func tryHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
@@ -126,6 +145,16 @@ func (p *kClient) AddProduct(ctx context.Context, req *product.ProductInfo) (r *
 	_args.Req = req
 	var _result product.ProductAddProductResult
 	if err = p.c.Call(ctx, "AddProduct", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ListProduct(ctx context.Context, req *product.ListRequest) (r *product.ListResponse, err error) {
+	var _args product.ProductListProductArgs
+	_args.Req = req
+	var _result product.ProductListProductResult
+	if err = p.c.Call(ctx, "ListProduct", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

@@ -60,6 +60,22 @@ func ProductAdd(ctx context.Context, c *app.RequestContext) {
 	c.JSON(consts.StatusOK, resp)
 }
 
+// ProductList .
+// @router /list [GET]
+func ProductList(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req product.ListRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(product.ListResponse)
+
+	c.JSON(consts.StatusOK, resp)
+}
+
 // DoSeckill .
 // @router /seckill [POST]
 func DoSeckill(ctx context.Context, c *app.RequestContext) {
