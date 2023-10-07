@@ -20,6 +20,7 @@ func Register(r *server.Hertz) {
 	root.GET("/list", append(_productlistMw(), api.ProductList)...)
 	root.POST("/login", append(_loginMw(), api.Login)...)
 	root.POST("/product", append(_productaddMw(), api.ProductAdd)...)
+	root.GET("/product", append(_productinfoMw(), api.ProductInfo)...)
 	root.POST("/registry", append(_registryMw(), api.Registry)...)
 	root.POST("/seckill", append(_doseckillMw(), api.DoSeckill)...)
 	root.POST("/submit", append(_submitMw(), api.Submit)...)

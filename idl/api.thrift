@@ -10,6 +10,7 @@ service Api{
     user.LoginResponse Login(1:user.BaseRequest req)(api.post="/login")
 
     product.BaseResponse ProductAdd(1:product.ProductInfo req)(api.post="/product")
+    product.ProductResponse ProductInfo(1:product.IdRequest req)(api.get="/product")
     product.ListResponse ProductList(1:product.ListRequest req)(api.get="/list")
 
 

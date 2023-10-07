@@ -11,6 +11,7 @@ type Cache struct {
 	User   *User
 	Prduct *Product
 	Orer   *Order
+	IP     *Ip
 }
 
 func NewCache() Cache {
@@ -25,5 +26,6 @@ func NewCache() Cache {
 		User:   &User{},
 		Prduct: &Product{},
 		Orer:   &Order{},
+		IP:     &Ip{},
 	}
 }

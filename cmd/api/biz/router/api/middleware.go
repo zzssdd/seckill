@@ -26,6 +26,11 @@ func _productaddMw() []app.HandlerFunc {
 	return nil
 }
 
+func _productinfoMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
 func _registryMw() []app.HandlerFunc {
 	// your code...
 	return nil

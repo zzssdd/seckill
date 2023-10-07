@@ -375,7 +375,7 @@ func (p *BaseResponse) String() string {
 }
 
 type LoginResponse struct {
-	Code  int8   `thrift:"code,1" form:"code" json:"code" query:"code"`
+	Code  int16  `thrift:"code,1" form:"code" json:"code" query:"code"`
 	Msg   string `thrift:"msg,2" form:"msg" json:"msg" query:"msg"`
 	Token string `thrift:"token,3" form:"token" json:"token" query:"token"`
 }
@@ -384,7 +384,7 @@ func NewLoginResponse() *LoginResponse {
 	return &LoginResponse{}
 }
 
-func (p *LoginResponse) GetCode() (v int8) {
+func (p *LoginResponse) GetCode() (v int16) {
 	return p.Code
 }
 
@@ -422,7 +422,7 @@ func (p *LoginResponse) Read(iprot thrift.TProtocol) (err error) {
 
 		switch fieldId {
 		case 1:
-			if fieldTypeId == thrift.BYTE {
+			if fieldTypeId == thrift.I16 {
 				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -482,7 +482,7 @@ ReadStructEndError:
 }
 
 func (p *LoginResponse) ReadField1(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadByte(); err != nil {
+	if v, err := iprot.ReadI16(); err != nil {
 		return err
 	} else {
 		p.Code = v
@@ -546,10 +546,10 @@ WriteStructEndError:
 }
 
 func (p *LoginResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("code", thrift.BYTE, 1); err != nil {
+	if err = oprot.WriteFieldBegin("code", thrift.I16, 1); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteByte(p.Code); err != nil {
+	if err := oprot.WriteI16(p.Code); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
