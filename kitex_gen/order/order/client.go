@@ -13,6 +13,7 @@ import (
 type Client interface {
 	OrderAdd(ctx context.Context, req *order.OrderInfo, callOptions ...callopt.Option) (r *order.BaseResponse, err error)
 	OrderStatusAdd(ctx context.Context, req *order.OrderInfo, callOptions ...callopt.Option) (r *order.BaseResponse, err error)
+	OrderCancel(ctx context.Context, req *order.OrderCancelRequest, callOptions ...callopt.Option) (r *order.OrderCancelResponse, err error)
 	Try(ctx context.Context, req *order.OrderInfo, callOptions ...callopt.Option) (r *order.BaseResponse, err error)
 	Commit(ctx context.Context, req *order.OrderInfo, callOptions ...callopt.Option) (r *order.BaseResponse, err error)
 	Cancal(ctx context.Context, req *order.OrderInfo, callOptions ...callopt.Option) (r *order.BaseResponse, err error)
@@ -55,6 +56,11 @@ func (p *kOrderClient) OrderAdd(ctx context.Context, req *order.OrderInfo, callO
 func (p *kOrderClient) OrderStatusAdd(ctx context.Context, req *order.OrderInfo, callOptions ...callopt.Option) (r *order.BaseResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.OrderStatusAdd(ctx, req)
+}
+
+func (p *kOrderClient) OrderCancel(ctx context.Context, req *order.OrderCancelRequest, callOptions ...callopt.Option) (r *order.OrderCancelResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.OrderCancel(ctx, req)
 }
 
 func (p *kOrderClient) Try(ctx context.Context, req *order.OrderInfo, callOptions ...callopt.Option) (r *order.BaseResponse, err error) {

@@ -6,7 +6,10 @@ import (
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	"seckill/cmd/api/biz/model/seckill"
 	"seckill/cmd/rpc"
+	"seckill/conf"
+	"seckill/dao/mq"
 	rpcSeckill "seckill/kitex_gen/seckill"
+	"seckill/pkg/errmsg"
 	. "seckill/pkg/log"
 )
 
@@ -38,6 +41,15 @@ func DoSeckill(ctx context.Context, c *app.RequestContext) {
 		Log.Errorln("Seckill service's Doseckill return err:", err)
 		return
 	}
+	var orderStatusMQ *mq.OrderStatus
+	err = orderStatusMQ.SetUp(conf.RabbitmqDSN)
+	if err != nil {
+		Log.Errorln("Set up order status failed:", err)
+	}
+	err = orderStatusMQ.DelayPublish(rpcResp.Id)
+	if err != nil {
+		Log.Errorln("Publish order status failed:", err)
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -53,6 +65,16 @@ func Submit(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(seckill.BaseResponse)
-
+	var orderMQ *mq.Order
+	err = orderMQ.SetUp(conf.RabbitmqDSN)
+	if err != nil {
+		Log.Errorln("Set up order status failed:", err)
+	}
+	err = orderMQ.Publish(req.ID, req.UID, int(req.Pid), req.ReqTime)
+	if err != nil {
+		Log.Errorln("Publish order info failed:", err)
+	}
+	resp.Code = errmsg.Success
+	resp.Msg = errmsg.GetMsg(errmsg.Success)
 	c.JSON(consts.StatusOK, resp)
 }

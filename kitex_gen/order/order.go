@@ -573,10 +573,200 @@ func (p *BaseResponse) Field2DeepEqual(src string) bool {
 	return true
 }
 
+type OrderCancelRequest struct {
+}
+
+func NewOrderCancelRequest() *OrderCancelRequest {
+	return &OrderCancelRequest{}
+}
+
+func (p *OrderCancelRequest) InitDefault() {
+	*p = OrderCancelRequest{}
+}
+
+var fieldIDToName_OrderCancelRequest = map[int16]string{}
+
+func (p *OrderCancelRequest) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		if err = iprot.Skip(fieldTypeId); err != nil {
+			goto SkipFieldTypeError
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+SkipFieldTypeError:
+	return thrift.PrependError(fmt.Sprintf("%T skip field type %d error", p, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *OrderCancelRequest) Write(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteStructBegin("OrderCancelRequest"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *OrderCancelRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("OrderCancelRequest(%+v)", *p)
+}
+
+func (p *OrderCancelRequest) DeepEqual(ano *OrderCancelRequest) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	return true
+}
+
+type OrderCancelResponse struct {
+}
+
+func NewOrderCancelResponse() *OrderCancelResponse {
+	return &OrderCancelResponse{}
+}
+
+func (p *OrderCancelResponse) InitDefault() {
+	*p = OrderCancelResponse{}
+}
+
+var fieldIDToName_OrderCancelResponse = map[int16]string{}
+
+func (p *OrderCancelResponse) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		if err = iprot.Skip(fieldTypeId); err != nil {
+			goto SkipFieldTypeError
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+SkipFieldTypeError:
+	return thrift.PrependError(fmt.Sprintf("%T skip field type %d error", p, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *OrderCancelResponse) Write(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteStructBegin("OrderCancelResponse"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *OrderCancelResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("OrderCancelResponse(%+v)", *p)
+}
+
+func (p *OrderCancelResponse) DeepEqual(ano *OrderCancelResponse) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	return true
+}
+
 type Order interface {
 	OrderAdd(ctx context.Context, req *OrderInfo) (r *BaseResponse, err error)
 
 	OrderStatusAdd(ctx context.Context, req *OrderInfo) (r *BaseResponse, err error)
+
+	OrderCancel(ctx context.Context, req *OrderCancelRequest) (r *OrderCancelResponse, err error)
 
 	Try(ctx context.Context, req *OrderInfo) (r *BaseResponse, err error)
 
@@ -625,6 +815,15 @@ func (p *OrderClient) OrderStatusAdd(ctx context.Context, req *OrderInfo) (r *Ba
 	_args.Req = req
 	var _result OrderOrderStatusAddResult
 	if err = p.Client_().Call(ctx, "OrderStatusAdd", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+func (p *OrderClient) OrderCancel(ctx context.Context, req *OrderCancelRequest) (r *OrderCancelResponse, err error) {
+	var _args OrderOrderCancelArgs
+	_args.Req = req
+	var _result OrderOrderCancelResult
+	if err = p.Client_().Call(ctx, "OrderCancel", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
@@ -679,6 +878,7 @@ func NewOrderProcessor(handler Order) *OrderProcessor {
 	self := &OrderProcessor{handler: handler, processorMap: make(map[string]thrift.TProcessorFunction)}
 	self.AddToProcessorMap("OrderAdd", &orderProcessorOrderAdd{handler: handler})
 	self.AddToProcessorMap("OrderStatusAdd", &orderProcessorOrderStatusAdd{handler: handler})
+	self.AddToProcessorMap("OrderCancel", &orderProcessorOrderCancel{handler: handler})
 	self.AddToProcessorMap("Try", &orderProcessorTry{handler: handler})
 	self.AddToProcessorMap("Commit", &orderProcessorCommit{handler: handler})
 	self.AddToProcessorMap("Cancal", &orderProcessorCancal{handler: handler})
@@ -781,6 +981,54 @@ func (p *orderProcessorOrderStatusAdd) Process(ctx context.Context, seqId int32,
 		result.Success = retval
 	}
 	if err2 = oprot.WriteMessageBegin("OrderStatusAdd", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
+}
+
+type orderProcessorOrderCancel struct {
+	handler Order
+}
+
+func (p *orderProcessorOrderCancel) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := OrderOrderCancelArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("OrderCancel", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return false, err
+	}
+
+	iprot.ReadMessageEnd()
+	var err2 error
+	result := OrderOrderCancelResult{}
+	var retval *OrderCancelResponse
+	if retval, err2 = p.handler.OrderCancel(ctx, args.Req); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing OrderCancel: "+err2.Error())
+		oprot.WriteMessageBegin("OrderCancel", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return true, err2
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("OrderCancel", thrift.REPLY, seqId); err2 != nil {
 		err = err2
 	}
 	if err2 = result.Write(oprot); err == nil && err2 != nil {
@@ -1627,6 +1875,352 @@ func (p *OrderOrderStatusAddResult) DeepEqual(ano *OrderOrderStatusAddResult) bo
 }
 
 func (p *OrderOrderStatusAddResult) Field0DeepEqual(src *BaseResponse) bool {
+
+	if !p.Success.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type OrderOrderCancelArgs struct {
+	Req *OrderCancelRequest `thrift:"req,1" frugal:"1,default,OrderCancelRequest" json:"req"`
+}
+
+func NewOrderOrderCancelArgs() *OrderOrderCancelArgs {
+	return &OrderOrderCancelArgs{}
+}
+
+func (p *OrderOrderCancelArgs) InitDefault() {
+	*p = OrderOrderCancelArgs{}
+}
+
+var OrderOrderCancelArgs_Req_DEFAULT *OrderCancelRequest
+
+func (p *OrderOrderCancelArgs) GetReq() (v *OrderCancelRequest) {
+	if !p.IsSetReq() {
+		return OrderOrderCancelArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *OrderOrderCancelArgs) SetReq(val *OrderCancelRequest) {
+	p.Req = val
+}
+
+var fieldIDToName_OrderOrderCancelArgs = map[int16]string{
+	1: "req",
+}
+
+func (p *OrderOrderCancelArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *OrderOrderCancelArgs) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_OrderOrderCancelArgs[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *OrderOrderCancelArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = NewOrderCancelRequest()
+	if err := p.Req.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *OrderOrderCancelArgs) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("OrderCancel_args"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *OrderOrderCancelArgs) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Req.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *OrderOrderCancelArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("OrderOrderCancelArgs(%+v)", *p)
+}
+
+func (p *OrderOrderCancelArgs) DeepEqual(ano *OrderOrderCancelArgs) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.Req) {
+		return false
+	}
+	return true
+}
+
+func (p *OrderOrderCancelArgs) Field1DeepEqual(src *OrderCancelRequest) bool {
+
+	if !p.Req.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type OrderOrderCancelResult struct {
+	Success *OrderCancelResponse `thrift:"success,0,optional" frugal:"0,optional,OrderCancelResponse" json:"success,omitempty"`
+}
+
+func NewOrderOrderCancelResult() *OrderOrderCancelResult {
+	return &OrderOrderCancelResult{}
+}
+
+func (p *OrderOrderCancelResult) InitDefault() {
+	*p = OrderOrderCancelResult{}
+}
+
+var OrderOrderCancelResult_Success_DEFAULT *OrderCancelResponse
+
+func (p *OrderOrderCancelResult) GetSuccess() (v *OrderCancelResponse) {
+	if !p.IsSetSuccess() {
+		return OrderOrderCancelResult_Success_DEFAULT
+	}
+	return p.Success
+}
+func (p *OrderOrderCancelResult) SetSuccess(x interface{}) {
+	p.Success = x.(*OrderCancelResponse)
+}
+
+var fieldIDToName_OrderOrderCancelResult = map[int16]string{
+	0: "success",
+}
+
+func (p *OrderOrderCancelResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *OrderOrderCancelResult) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField0(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_OrderOrderCancelResult[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *OrderOrderCancelResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = NewOrderCancelResponse()
+	if err := p.Success.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *OrderOrderCancelResult) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("OrderCancel_result"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField0(oprot); err != nil {
+			fieldId = 0
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *OrderOrderCancelResult) writeField0(oprot thrift.TProtocol) (err error) {
+	if p.IsSetSuccess() {
+		if err = oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := p.Success.Write(oprot); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
+}
+
+func (p *OrderOrderCancelResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("OrderOrderCancelResult(%+v)", *p)
+}
+
+func (p *OrderOrderCancelResult) DeepEqual(ano *OrderOrderCancelResult) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field0DeepEqual(ano.Success) {
+		return false
+	}
+	return true
+}
+
+func (p *OrderOrderCancelResult) Field0DeepEqual(src *OrderCancelResponse) bool {
 
 	if !p.Success.DeepEqual(src) {
 		return false

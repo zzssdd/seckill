@@ -12,9 +12,18 @@ struct BaseResponse{
     2:string msg;
 }
 
+struct OrderCancelRequest{
+
+}
+
+struct OrderCancelResponse{
+
+}
+
 service Order{
    BaseResponse OrderAdd(1:OrderInfo req)
    BaseResponse OrderStatusAdd(1:OrderInfo req)
+   OrderCancelResponse OrderCancel(1:OrderCancelRequest req)
    BaseResponse Try(1:OrderInfo req)
    BaseResponse Commit(1:OrderInfo req)
    BaseResponse Cancal(1:OrderInfo req)

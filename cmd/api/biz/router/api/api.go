@@ -25,3 +25,4 @@ func Register(r *server.Hertz) {
 	root.POST("/seckill", append(_doseckillMw(), api.DoSeckill)...)
 	root.POST("/submit", append(_submitMw(), api.Submit)...)
 }
+

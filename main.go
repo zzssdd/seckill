@@ -3,12 +3,16 @@
 package main
 
 import (
+	"context"
 	"github.com/cloudwego/hertz/pkg/app/server"
+	"seckill/cmd/api/biz/router"
+	"seckill/cmd/task"
 )
 
 func main() {
 	h := server.Default()
 
-	register(h)
+	router.GeneratedRegister(h)
+	task.StartAllTask(context.Background())
 	h.Spin()
 }

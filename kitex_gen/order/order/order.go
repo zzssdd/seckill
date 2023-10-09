@@ -21,6 +21,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	methods := map[string]kitex.MethodInfo{
 		"OrderAdd":       kitex.NewMethodInfo(orderAddHandler, newOrderOrderAddArgs, newOrderOrderAddResult, false),
 		"OrderStatusAdd": kitex.NewMethodInfo(orderStatusAddHandler, newOrderOrderStatusAddArgs, newOrderOrderStatusAddResult, false),
+		"OrderCancel":    kitex.NewMethodInfo(orderCancelHandler, newOrderOrderCancelArgs, newOrderOrderCancelResult, false),
 		"Try":            kitex.NewMethodInfo(tryHandler, newOrderTryArgs, newOrderTryResult, false),
 		"Commit":         kitex.NewMethodInfo(commitHandler, newOrderCommitArgs, newOrderCommitResult, false),
 		"Cancal":         kitex.NewMethodInfo(cancalHandler, newOrderCancalArgs, newOrderCancalResult, false),
@@ -74,6 +75,24 @@ func newOrderOrderStatusAddArgs() interface{} {
 
 func newOrderOrderStatusAddResult() interface{} {
 	return order.NewOrderOrderStatusAddResult()
+}
+
+func orderCancelHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*order.OrderOrderCancelArgs)
+	realResult := result.(*order.OrderOrderCancelResult)
+	success, err := handler.(order.Order).OrderCancel(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newOrderOrderCancelArgs() interface{} {
+	return order.NewOrderOrderCancelArgs()
+}
+
+func newOrderOrderCancelResult() interface{} {
+	return order.NewOrderOrderCancelResult()
 }
 
 func tryHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
@@ -155,6 +174,16 @@ func (p *kClient) OrderStatusAdd(ctx context.Context, req *order.OrderInfo) (r *
 	_args.Req = req
 	var _result order.OrderOrderStatusAddResult
 	if err = p.c.Call(ctx, "OrderStatusAdd", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) OrderCancel(ctx context.Context, req *order.OrderCancelRequest) (r *order.OrderCancelResponse, err error) {
+	var _args order.OrderOrderCancelArgs
+	_args.Req = req
+	var _result order.OrderOrderCancelResult
+	if err = p.c.Call(ctx, "OrderCancel", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
